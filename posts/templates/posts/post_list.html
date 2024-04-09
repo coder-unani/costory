@@ -1,0 +1,17 @@
+{% extends './base.html' %} {% block post_container %}
+<h1>글 목록 페이지예요</h1>
+<ul>
+    {% for post in posts %}
+    <li>
+    <h2>
+        <a href="#">{{ post.title }}</a>
+    </h2>
+    <div>
+        <div>{{ post.content }}</div>
+        <div>{{ post.dt_created }}</div>
+    </div>
+    </li>
+    {% endfor %} 
+</ul>
+{% endblock post_container %}
+</div>
