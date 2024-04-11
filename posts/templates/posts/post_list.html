@@ -16,9 +16,9 @@
     <div class="btn_post">
         <a href={% url "post-create" %}>글쓰기</a>
     </div>
-    {% if page_obj.object_list %}
+    {% if object_list %}
         <div class="post_container">
-            {% for post in page_obj.object_list %}
+            {% for post in object_list %}
                 <div class="post">
                     <a href="{% url 'post-detail' post.id %}">
                         <h2 class="title">{{ post.title }}</h2>
@@ -29,16 +29,16 @@
             {% endfor %}
         </div>
         <div class="paging">
-            {% if page_obj.has_previous %}
+            {% if object_list.has_previous %}
                 <a href="?page=1" class="first">처음</a>
-                <a href="?page={{ page_obj.previous_page_number }}" class="prev">이전</a>
+                <a href="?page={{ object_list.previous_page_number }}" class="prev">이전</a>
             {% endif %}
             <span>
-                <p>{{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</p>
+                <p>{{ object_list.number }} of {{ object_list.paginator.num_pages }}</p>
             </span>
-            {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}" class="next">다음</a>
-                <a href="?page={{ page_obj.paginator.num_pages }}" class="last">마지막</a>
+            {% if object_list.has_next %}
+                <a href="?page={{ object_list.next_page_number }}" class="next">다음</a>
+                <a href="?page={{ object_list.paginator.num_pages }}" class="last">마지막</a>
             {% endif %}
         </div>
     {% else %}

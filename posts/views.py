@@ -1,6 +1,6 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.core.paginator import Paginator
-from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
+from django.views.generic import (
+    CreateView, ListView, DetailView, UpdateView, DeleteView, RedirectView
+)
 from django.urls import reverse
 
 from .models import Post
@@ -48,47 +48,51 @@ from .forms import PostForm
 #         return redirect("post-list")
 #     else:
 #         return render(request, "posts/post_confirm_delete.html", {"post": post})
+# def index(request):
+#     return redirect("post-list")
 
 class PostCreateView(CreateView):
     model = Post
     form_class = PostForm
-    template_name = "posts/post_form.html"
+    # template_name = "posts/post_form.html"
 
     def get_success_url(self):
         # reverse post-detail 이름에 해당하는 URL을 찾아서 만들어줌
-        return reverse("post-detail", kwargs={"post_id": self.object.id})
+        return reverse("post-detail", kwargs={"pk": self.object.id})
 
 class PostListView(ListView):
     model = Post
-    template_name = "posts/post_list.html"
-    context_object_name = "posts"
+    # template_name = "posts/post_list.html"
+    # context_object_name = "posts"
     ordering = "-dt_created"
     paginate_by = 6
-    page_kwarg = "page"
+    # page_kwarg = "page"
 
 class PostDetailView(DetailView):
     model = Post
-    template_name = "posts/post_detail.html"
-    pk_url_kwarg = "post_id"
-    context_object_name = "post"
+    # template_name = "posts/post_detail.html"
+    # pk_url_kwarg = "post_id"
+    # context_object_name = "post"
 
 class PostUpdateView(UpdateView):
     model = Post
     form_class = PostForm
-    template_name = "posts/post_form.html"
-    pk_url_kwarg = "post_id"
+    # template_name = "posts/post_form.html"
+    # pk_url_kwarg = "post_id"
     
     def get_success_url(self):
-        return reverse("post-detail", kwargs={"post_id": self.object.id})
+        return reverse("post-detail", kwargs={"pk": self.object.id})
     
 class PostDeleteView(DeleteView):
     model = Post
-    template_name = "posts/post_confirm_delete.html"
-    pk_url_kwarg = "post_id"
-    context_object_name = "post"
+    # template_name = "posts/post_confirm_delete.html"
+    # pk_url_kwarg = "post_id"
+    # context_object_name = "post"
 
     def get_success_url(self):
         return reverse("post-list")
 
-def index(request):
-    return redirect("post-list")
+class IndexView(RedirectView):
+    def get_redirect_url(self, *args, **kwargs):
+        return reverse("post-list")
+    
